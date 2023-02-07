@@ -1,0 +1,21 @@
+{
+    "workbench.editor.enablePreview":false,
+    "workbench.editor.showTabs":true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100,
+    "window.zoomLevel": 0,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "editor.codeActionsOnSave": null,
+    "vim.easymotion": true,
+    "vim.leader": "<space>",
+    
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+        "before": [" "],
+        "after": ["leader", "leader","leader","b","d","w"]
+        }
+
+    ],
+    "vim.easymotionKeys": "hklyuiopnm,qwertzxcvbasdgjf;"  
+}
