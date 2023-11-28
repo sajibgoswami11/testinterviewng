@@ -1,6 +1,6 @@
 {
     "workbench.editor.enablePreview":false,
-    "workbench.editor.showTabs":true,
+    "workbench.editor.showTabs":"multiple",
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 100,
     "window.zoomLevel": 0,
