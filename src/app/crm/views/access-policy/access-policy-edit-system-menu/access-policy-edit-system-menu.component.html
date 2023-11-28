@@ -1,0 +1,48 @@
+<div class="animated fadeIn">  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-accent-primary">
+        <div class="card-header">
+          <i class="fa fa-edit"></i>Edit Project
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal" [formGroup]="EditSystemMenu" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-4 offset-md-2">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Menu Title</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="userMenuId" id="prependedInput" class="form-control d-none" size="16" type="text">
+                      <input  formControlName="userMenuTitle" id="prependedInput" class="form-control" size="16" type="text">
+                    </div>
+                    <p *ngIf="EditSystemMenu.get('userMenuTitle')!.hasError('required') && EditSystemMenu.value.touched">
+                      <small class="text-danger">Please input Menu </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 offset-md-2">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Menu path</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input  formControlName="userMenuFile" id="prependedInput" class="form-control" size="16" type="text">
+                    </div>
+                    <p *ngIf="EditSystemMenu.get('userMenuFile')!.hasError('required') && EditSystemMenu.value.touched">
+                      <small class="text-danger">Please input Menu Path </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn btn-primary mr-3">Save changes </button>
+              <a routerLink="/accesspolicy/list" routerLinkActive="active" class="btn btn-danger" type="button"> Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

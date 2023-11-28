@@ -1,0 +1,145 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-accent-primary">
+        <div class="card-header">
+          <i class="fa fa-edit"></i>Create Project
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal" [formGroup]="CreateProject" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-4 offset-md-2">
+                <div class="form-group">
+                  <label class="col-form-label" for="projectName">Project Name</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="projectName" id="projectName" class="form-control" size="16" type="text" placeholder="Project Name" [readOnly]="readOnlyMode">
+                    </div>
+                    <p *ngIf="CreateProject.get('projectName')!.hasError('required') && CreateProject.value.touched">
+                      <small class="text-danger">Please input project Name </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="col-form-label" for="projectMilestones">Milestones</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="projectMilestones"  id="projectMilestones"  class="form-control" type="date" [readOnly]="readOnlyMode">
+                    </div>
+                    <p *ngIf="CreateProject.get('projectMilestones')!.hasError('required') && CreateProject.value.touched">
+                      <small class="text-danger">Please input projectMilestones  </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 offset-md-2">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Progress Status</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <select formControlName="projectprogressStatus" class="form-control" (change)="onSelectProgress($event)" [disabled]="false">
+                        <option value="" selected>--- Select Status ---</option>
+                        <option *ngFor="let itemProgress of progressStatus" [value]="itemProgress.taskStatusListId">{{itemProgress.statusName}}</option>
+                        </select>
+                    </div>
+                    <!-- <p *ngIf="CreateProject.get('progressStatus').hasError('required') && CreateProject.value.touched">
+                      <small class="text-danger">Please input progress status </small>
+                    </p> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="col-form-label" >Project Employee</label>
+                  <ng-multiselect-dropdown
+                    name="employeeList"
+                    formControlName="projectEmployeeList"
+                    [data]= "employeeList"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    [disabled]=readOnlyMode
+                    >
+                </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+              </div>              
+              <div class="col-md-12">
+                <div class="col-md-6 offset-md-3">                  
+                  <input type='checkbox' id= 'abc' (change)="onCheckModuleShow($event)">&nbsp;
+                  <strong> Would you add module in this project </strong>
+                </div>
+
+              </div >
+              <div class="col-md-12" formArrayName="moduleRows" *ngIf='show'>
+                <div class="row" *ngFor="let itemrow of CreateProject.controls.moduleRows['controls']; let i=index"  [formGroupName]="i">
+                  <div class="col-md-12">
+                    <strong>Module - {{i+1}}</strong>
+                  </div>                  
+                  <div class="col-md-3" >
+                    <label class="col-form-label" for="module{{i}}">Module Name</label>
+                    <div class="controls">
+                      <div class="input-prepend input-group ">
+                        <input formControlName="moduleName"  id="module{{i}}"  class="form-control" type="text" placeholder="Module Name">
+                      </div>                      
+                    </div>                  
+                  </div>
+                  <div class="col-md-2" >
+                    <label class="col-form-label" for="milestones{{i}}">Milestones</label>
+                    <div class="controls">
+                      <div class="input-prepend input-group ">
+                        <input formControlName="moduleMilestones"  id="milestones{{i}}"  class="form-control" type="date" placeholder="Milestones" (change)="onModuleDateExceed($event)">
+                      </div>                      
+                    </div>                  
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="col-form-label" for="prependedInput">Progress Status</label>
+                      <div class="controls">
+                        <div class="input-prepend input-group">
+                          <select formControlName="progressStatus" class="form-control" (change)="onSelectProgress($event)">
+                            <option value="" selected>--- Select Status ---</option>
+                            <option *ngFor="let itemProgress of progressStatus" [value]="itemProgress.taskStatusListId">{{itemProgress.statusName}}</option>
+                            </select>
+                        </div>
+                        <!-- <p *ngIf="CreateProject.get('progressStatus').hasError('required') && CreateProject.value.touched">
+                          <small class="text-danger">Please input progress status </small>
+                        </p> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="col-form-label" >Module Employee</label>
+                      <ng-multiselect-dropdown
+                        name="employeeList"
+                        formControlName="moduleEmployeeList"
+                        [data]= "projectEmployeeList"
+                        [settings]="dropdownSettings"
+                        (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)"
+                        >
+                    </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-md-2" style="padding-top: 38px;">
+                    <button type="button" *ngIf="CreateProject.controls.moduleRows['controls'].length > 1" (click)="deleteRow(i)" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle" aria-hidden="true"></i></button> &nbsp;
+                    <button type="button" (click)="addNewRow()" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                  </div>
+                </div>                
+              </div>
+              <div class="col-md-12 text-center" style="margin-top: 30px;">
+                <button type="submit" class="btn btn-primary mr-3">Save changes</button>
+                <a routerLink="/project/list" routerLinkActive="active" class="btn btn-danger" type="button"> Cancel</a>
+              </div>
+            </div>            
+          </form>
+        </div>
+      </div>
+    </div> <!--/.col-->
+  </div><!--/.row-->
+</div>

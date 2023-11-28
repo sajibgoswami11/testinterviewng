@@ -1,0 +1,195 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title mb-4">
+              <div class="d-flex justify-content-start">
+                  <div class="image-container">
+                    <div *ngIf= "img; else emptmg">
+                      <img [src]="empImage" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                    </div>
+                    <ng-template #emptmg>
+                      <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                    </ng-template>
+                      
+                      <!-- <div class="middle">
+                          <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
+                          <input type="file" style="display: none;" id="profilePicture" name="file" />
+                      </div> -->
+                  </div>
+                  <div class="userData ml-3">
+                      <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"> {{profile.empName}}</h2>
+                      <!-- <h6 class="d-block"><a href="javascript:void(0)">1,500</a> Video Uploads</h6>
+                      <h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6> -->
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <mat-tab-group animationDuration="1000ms">
+                <mat-tab label="Basic Info">
+                  <div class="tab-content ml-1" id="myTabContent">
+                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                      <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">Full Name</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            {{profile.empName}}
+                          </div>
+                      </div>
+                      <hr />
+                      <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">Birth Date</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                              {{profile.birthDate | date: 'dd/MM/yyyy'}}
+                          </div>
+                      </div>
+                      <hr />                          
+                      <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">Email</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            {{profile.empEmail}}
+                          </div>
+                      </div>
+                      <hr />
+                      <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">Mobile No.</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            {{profile.contactNumber}}
+                          </div>
+                      </div>
+                      <hr />
+                      <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">NID</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            {{profile.nidCard}}
+                          </div>
+                      </div>
+                      <hr />
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                            <label style="font-weight:bold;">Address</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          {{profile.presentAddress}}
+                        </div>
+                    </div>
+                    <hr />
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Update Info">
+                  <form class="form-horizontal" [formGroup]="employeeProfile" (ngSubmit)="onSubmit()">
+                    <div class="tab-content ml-1" id="TabContent">
+                      <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 col-5">
+                                <label style="font-weight:bold;">Full Name</label>
+                            </div>
+                            <div class="col-md-8 col-6">
+                              <input formControlName="empName" id="empName" class="form-control" type="text">
+                              <p *ngIf="employeeProfile.get('empName')!.hasError('required') && employeeProfile.value.touched">
+                              <small class="text-danger">Please input Birth Date </small>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 col-5">
+                                <label style="font-weight:bold;">Birth Date</label>
+                            </div>
+                            <div class="col-md-8 col-6">
+                              <input formControlName="birthDate" id="birthDate" class="form-control" type="date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                              <p *ngIf="employeeProfile.get('birthDate')!.hasError('required') && employeeProfile.value.touched">
+                              <small class="text-danger">Please input Birth Date </small>                                
+                            </div>
+                        </div>
+                        <hr />                          
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 col-5">
+                                <label style="font-weight:bold;">Email</label>
+                            </div>
+                            <div class="col-md-8 col-6">
+                              <input formControlName="empEmail" id="empEmail" class="form-control"  type="text">
+                              <p *ngIf="employeeProfile.get('empEmail')!.hasError('required') && employeeProfile.value.touched">
+                              <small class="text-danger">Please input Email </small>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 col-5">
+                                <label style="font-weight:bold;">Mobile No.</label>
+                            </div>
+                            <div class="col-md-8 col-6">
+                              <input formControlName="contactNumber" id="contactNumber" class="form-control" type="text">
+                              <p *ngIf="employeeProfile.get('contactNumber')!.hasError('required') && employeeProfile.value.touched">
+                              <small class="text-danger">Please input Contact Number </small>                              
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 col-5">
+                                <label style="font-weight:bold;">NID</label>
+                            </div>
+                            <div class="col-md-8 col-6">
+                              <input formControlName="nidCard" id="nidCard" class="form-control" type="text">
+                              <p *ngIf="employeeProfile.get('nidCard')!.hasError('required') && employeeProfile.value.touched">
+                              <small class="text-danger">Please input employee Name </small>                              
+                            </div>
+                        </div><hr />
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                              <label style="font-weight:bold;">Address</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <input formControlName="address" id="address" class="form-control" type="text">
+                            <p *ngIf="employeeProfile.get('nidCard')!.hasError('required') && employeeProfile.value.touched">
+                            <small class="text-danger">Please input employee Name </small>                              
+                          </div>
+                      </div><hr />
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Image</label>
+                          <!-- <input type="text" class="form-control" formControlName="imageName" placeholder="Image"/> -->
+                          <input (change)="picked($event)"  type="file"  class="form-control" />
+      
+                        </div>
+                        
+                        <div class="form-group">
+                          <!-- <span *ngFor="let image of employeeProfile.get('images')![controls] ; let j = index " class="imagecontainer">
+                             <img [src]="image.value"  style="height: 50px; width:50px">
+                          <div class="overlay">
+                             <a href="javascript:void(0)" class="icon" >
+                               <i class="fa fa-trash"></i>
+                             </a>
+                          </div>
+                        </span> -->
+                        </div>
+                      </div><hr />
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary mr-3" (click)="save(employeeProfile.value)">Update Info</button>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </form>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

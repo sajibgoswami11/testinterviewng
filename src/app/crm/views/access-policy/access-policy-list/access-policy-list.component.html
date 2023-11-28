@@ -1,0 +1,165 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title mb-4">
+            <div class="row">
+              <div class="col-12">
+                
+                  <label class="col-form-label">Role Access Policy</label>
+                    <div class="tab-content ml-1" id="myTabContent">
+                      <div class="tab-pane fade show active" id="roleWiseMenuInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                        <table class="table table-bordered table-striped table-sm text-center">
+                          <thead>
+                            <tr>
+                              <th class="d-none">ID</th>
+                              <th>Title</th>
+                              <th>Menu Id</th>
+                              <th>Menu</th>
+                              <th>Menu Url</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of roleWiseMenuData | paginate: { id: 'item',
+                            itemsPerPage: pageSize,
+                            currentPage: pageNumber,
+                            totalItems: totalRecords }">
+                             <td class="d-none">{{item.userGroupId}}</td>
+                             <td>{{item.userGroupTitle}}</td>
+                             <td>{{item.userMenuId}}</td>
+                             <td>{{item.userMenuTitle}}</td>
+                             <td>{{item.userMenuFile}}</td>
+                             <td>
+                              <!-- <button class="btn btn-success btn-sm ml-3">View</button> -->
+                              <button class="btn btn-warning btn-sm ml-3" (click)="editMenu(item.userMenuId)">Edit</button> 
+                              <!-- <button class="btn btn-danger btn-sm ml-3" (click)="deleteAccessMenu(item.userGroupId)">Delete</button>  -->
+                            </td>
+                          </tbody>
+                        </table>
+                        <nav>
+                          <pagination-controls  id="item"
+                                (pageChange)="pageChanged($event)"
+                                (pageBoundsCorrection)="pageChanged($event)"
+                                
+                                previousLabel="Previous"
+                                nextLabel="Next">
+                          </pagination-controls>
+                        </nav>
+                      </div>
+                    </div>
+                 
+                  
+                  <div class="col-md-12">
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                  </div> 
+                  <div>
+                    <form class="form-horizontal" [formGroup]="userWiseMenuCreateForm" (ngSubmit)="onSubmit()">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <!-- <div class="col-md-3" >
+                            <div class="form-group">
+                              <label class="col-form-label" for="Name">Role Name</label>
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <input formControlName="userName" id="userName" class="form-control" size="16" type="text" placeholder="User Name" >
+                                </div>
+                                <p *ngIf="userWiseMenuCreateForm.get('userName').hasError('required') && userWiseMenuCreateForm.value.touched">
+                                  <small class="text-danger">Please input user Name </small>
+                                </p>
+                              </div>
+                            </div>
+                          </div> -->
+                          <!-- <div class="col-md-3" >
+                            <div class="form-group">
+                              <label class="col-form-label" for="Group">Role Name</label>
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  
+                                  <select formControlName="userGroupList" class="form-control"   > 
+                                    <option *ngFor="let itm of userGroupList" [value]="itm.groupId">{{itm.groupTitle}}</option>
+                                    </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="col-md-3" >
+                            <div class="form-group">
+                              <label class="col-form-label" for="Group Wise Menu">Menu parent</label>
+                              <div class="controls">
+                                
+                                  
+                                    <ng-multiselect-dropdown
+                                    name="ddGroupAccessMenu"
+                                    formControlName="ddGroupAccessMenu"
+                                    [data]= "ddGroupAccessMenu"
+                                    [settings]="dropdownSettings"
+                                    
+                                    >
+                                   </ng-multiselect-dropdown>
+                                
+                              </div>
+                            </div>
+                          </div>
+                            <div class="col-md-3" >
+                              <div class="form-group">
+                                <label class="col-form-label" for="Menu Title">Menu Title</label>
+                                <ng-multiselect-dropdown
+                                name="ddGroupWiseMenu"
+                                formControlName="ddGroupWiseMenu"
+                                [data]= "ddGroupWiseMenu"
+                                [settings]="dropdownSettings"
+                                                     
+                                >
+                              </ng-multiselect-dropdown>
+                              <!-- (onSelect)="onItemMenuSelect($event)"
+                                (onSelectAll)="onSelectMenuAll($event)"
+                                (onDeSelect)="onMenuDeSelect($event)" -->
+                                <div class="controls">
+                                  <div class="input-prepend input-group">
+                                    <input formControlName="menuTitle" id="menuTitle" class="form-control" size="16" type="text">
+                                  </div>
+                                </div>
+                              </div>
+                            </div> 
+                          
+                          <div class="col-md-3" >
+                            <div class="form-group">
+                              <label class="col-form-label" >Menu Path</label>
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <input formControlName="menuPath" id="menuPath" class="form-control" size="16" type="text">
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                          <div class="col-md-3" >
+                            <div class="form-group">
+                              <label class="col-form-label" > Type</label>
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <select formControlName="menuType" id="menuType" class="form-control"  type="text">
+                                    <option value="GR" >Group</option>
+                                    <option value="MN">Menu</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                      </div>
+                      <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary mr-3">Save changes </button>
+                        <button  class="btn btn-danger" type="button" (click)="userWiseMenuCreateForm.reset()"> Reset</button>
+                      </div> 
+                    </form>
+                  </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

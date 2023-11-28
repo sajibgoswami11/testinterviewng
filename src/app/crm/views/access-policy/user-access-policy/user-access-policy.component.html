@@ -1,0 +1,138 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title mb-4">
+            <div class="row">
+              <div class="col-12">
+  
+                <!-- <div class="tab-pane fade show active" id="userWiseMenuInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                  <table class="table table-bordered table-striped table-sm text-center">
+                    <thead>
+                      <tr>
+                        <th class="d-none">ID</th>
+                        <td>Role</td>
+                        <th>Name</th>
+                        <th>Menu Id</th>
+                        <th>Menu</th>
+                        <th>Menu Url</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of userWiseMenuData | paginate: { id: 'item',
+                      itemsPerPage: pageSizeUser,
+                      currentPage: pageNumber,
+                      totalItems: totalRecords }">
+                      <td class="d-none">{{item.userId}}</td>
+                      <td>{{item.userGroupTitle}}</td>
+                      <td>{{item.userName}}</td>
+                      <td>{{item.userMenuId}}</td>
+                      <td>{{item.userMenuTitle}}</td>
+                      <td>{{item.userMenuFile}}</td>
+                      <td>
+                        <button class="btn btn-success btn-sm ml-3">View</button>
+                        <button class="btn btn-warning btn-sm ml-3" (click)="editEmployee(item.userGroupId)">Edit</button> 
+                        <button class="btn btn-danger btn-sm ml-3" (click)="deleteEmployee(item.empId)">Delete</button> 
+                      </td>
+                    </tbody>
+                  </table>
+                  <nav>
+                    <pagination-controls  id="item"
+                          (pageChange)="pageChangedForUser($event)"
+                          (pageBoundsCorrection)="pageChangedForUser($event)"
+                          maxSize="5"
+                          directionLinks="true"
+                          autoHide="true"
+                          responsive="true"
+                          previousLabel="Previous"
+                          nextLabel="Next">
+                    </pagination-controls>
+                  </nav>
+                </div> -->
+                <div class="col-md-12">
+                  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                </div> 
+                <div class="col-md-12">
+                  <form class="form-horizontal" [formGroup]="userWiseMenuCreateForm" (ngSubmit)="onSubmit()">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <!-- <div class="col-md-3" >
+                          <div class="form-group">
+                            <label class="col-form-label" for="Name">User</label>
+
+                                  <ng-multiselect-dropdown
+                                  name="userList"
+                                  formControlName="userList"
+                                  [data]= "userList"
+                                  [settings]="userdropdownSettings"
+                                  (onSelect)="onItemGroupSelect($event)"
+                                  >
+                                 </ng-multiselect-dropdown>
+                              
+                            
+                          </div>
+                        </div> -->
+                        <div class="col-md-4" >
+                          <div class="form-group">
+                            <label class="col-form-label" for="User Role"> Role</label>
+                            <div class="controls">
+                              <div class="input-prepend input-group">
+                                <select formControlName="userGroupList" class="form-control" (change)="onItemGroupSelect($event)">
+                                  <option value="" selected>--- Select Role ---</option>
+                                  <option *ngFor="let itm of userGroupList" [value]="itm.groupId">{{itm.groupTitle}}</option>
+                                  </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-3" >
+                          <div class="form-group">
+                            <label class="col-form-label" for="User Group RoleWise ">Role</label>
+                            <div class="controls">
+                              
+                              <ng-multiselect-dropdown
+                              name="ddRoleWiseGroup"
+                              formControlName="ddRoleWiseGroup"
+                              [data]= "ddRoleWiseGroup"
+                              [settings]="dropdownSettings"
+                              (onSelect)="onItemMenuSelectByGroup($event)"
+                                                  
+                              >
+                             </ng-multiselect-dropdown>
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="col-md-5" >
+                          <div class="form-group">
+                            <label class="col-form-label" for="Menu Path">Menu</label>
+                            <ng-multiselect-dropdown
+                            name="ddGroupWiseMenu"
+                            formControlName="ddGroupWiseMenu"
+                            [data]= "ddGroupWiseMenu"
+                            [settings]="menuDropdownSettings"
+                            (onSelect)="onItemMenuSelect($event)"
+                            (onSelectAll)="onSelectMenuAll($event)"
+                            (onDeSelect)="onMenuDeSelect($event)"                     
+                            >
+                           </ng-multiselect-dropdown>
+                          </div>
+                        </div> 
+                      </div>
+                    </div> 
+                    <div class="col-md-12 text-center">
+                      <button type="submit" class="btn btn-primary mr-3">Save changes </button>
+                      <button  class="btn btn-danger" type="button" (click)="userWiseMenuCreateForm.reset()"> Reset </button>
+                    </div>  
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      

@@ -1,0 +1,62 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+          <div class="card card-accent-primary">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Project List
+              <div class="card-header-actions">
+                <a routerLink="/project/create" routerLinkActive="active" class="btn btn-sm btn-primary" type="button"> 
+                  <i class="fa fa-plus-circle fa-lg"></i>&nbsp; Create New
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-sm text-center">
+                <thead>
+                  <tr>
+                    <th class="d-none">ProjecT ID</th>
+                    <th>Project Name</th>
+                    <th>Milestones</th>
+                    <th>progress</th>
+                    <th>Team</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let project of data | paginate: { id: 'project',
+                  itemsPerPage: pageSize,
+                  currentPage: pageNumber,
+                  totalItems: totalRecords }">
+                    <td class="d-none">{{project.projectId}}</td>
+                    <td>{{project.projectName}}</td>
+                    <td>{{project.milestone}}</td>
+                    <td>{{project.progressStatus}}</td>
+                    <td>
+                       <div *ngFor="let mod of teamList" >
+                         <div *ngIf="mod.teamId == project.teamId" >{{mod.teamName}} </div>
+                       </div>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)" (click)="editProject(project.projectId)"><span class="badge badge-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</span></a> | 
+                      <a href="javascript:void(0)" (click)="deleteProject(project.projectId)"><span class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <nav>
+                <pagination-controls  id="project"
+                      (pageChange)="pageChanged($event)"
+                      (pageBoundsCorrection)="pageChanged($event)"
+                      maxSize="9"
+                      directionLinks="true"
+                      autoHide="true"
+                      responsive="true"
+                      previousLabel="Previous"
+                      nextLabel="Next">
+                </pagination-controls>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
