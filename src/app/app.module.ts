@@ -9,7 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
 import {MatTabsModule} from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-// import {  TreeviewModule } from 'ngx-treeview';
+
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
 
@@ -44,6 +44,7 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './crm/helpers/auth.guard';
 import { EncryptionDescryptionService } from './crm/services/encryption-descryption.service';
+import { TreeModule } from 'primeng/tree';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -91,8 +92,7 @@ const APP_CONTAINERS = [
     positionClass: 'toast-top-right',
     preventDuplicates: false
     }),
-    // NotLoggedModule,
-   //  TreeviewModule.forRoot()
+    TreeModule,
   ],
   providers: [
      LoginComponent,

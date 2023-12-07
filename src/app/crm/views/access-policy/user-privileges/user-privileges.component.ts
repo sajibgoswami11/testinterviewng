@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-// import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
-import { EmployeeListService } from '../../../services/employee-list.service';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { EncryptionDescryptionService } from '../../../services/encryption-descryption.service';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { TreeNode } from 'primeng/api';
+import { EmployeeListService } from 'src/app/crm/services/employee-list.service';
+import { EncryptionDescryptionService } from 'src/app/crm/services/encryption-descryption.service';
 
 @Component({
   selector: 'app-user-privileges',
@@ -17,17 +17,12 @@ export class UserPrivilegesComponent implements OnInit {
   userPrivileges!: FormGroup;
   encryptUserPrivileges!: FormGroup;
   public selectedItem: any;
-   
-  // items!: TreeviewItem[];
-  values!: number[];
-  // config = TreeviewConfig.create({
-  //   hasAllCheckBox: true,
-  //   hasFilter: true,
-  //   hasCollapseExpand: true,
-  //   decoupleChildFromParent: false,
-  //   maxHeight: 500
-  // });
-  config:any;
+  selectedNodes! : any;
+  
+  nodes: TreeNode[] = [];
+
+ 
+
   constructor(
     private employee: EmployeeListService,
     private encryptObj: EncryptionDescryptionService,
@@ -41,43 +36,40 @@ export class UserPrivilegesComponent implements OnInit {
       employee: ['', Validators.required]
     });
 
-    this.employee.getUserList().subscribe(
-      responseEmployee => {
-        this.employeeList = responseEmployee.usersList;
-      });
+    this.employee.getUserList().subscribe(responseEmployee => {
+      this.employeeList = responseEmployee.usersList;
+    });
   }
 
   onFilterChange(value: string): void {
     console.log('filter:', value);
   }
 
-  // onSelectEmployee(event: Event) {
-  //   const target = event.target as HTMLSelectElement;
-  //   const value = target.value;
-  //   this.ddEmployee = value;
-  //   const encryptEmployee = this.fb.group({
-  //     userRoleId : this.encryptObj.encryptData(value)
-  //  });
-  //   this.employee.RoleWiseMenu(encryptEmployee.value).subscribe(
-  //     responseEmployee => {
-  //       const menuItem :any[]= [];
-  //       // tslint:disable-next-line:prefer-for-of
-  //       for (let i = 0; i < responseEmployee.accessMenu.length; i++){
-  //         menuItem.push(new TreeviewItem(responseEmployee.accessMenu[i]));
-  //       }
-  //       this.items = menuItem;
-  //     });
-  // }
   onSelectEmployee(event: Event) {
-     const target = event.target as HTMLSelectElement;
-     const value = target.value;}
-     
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+    this.ddEmployee = value;
+    const encryptEmployee = this.fb.group({
+      userRoleId: this.encryptObj.encryptData(value)
+    });
+
+    this.employee.RoleWiseMenu(encryptEmployee.value).subscribe(responseEmployee => {
+      // Assuming responseEmployee.accessMenu is an array of TreeNode
+      
+      this.nodes = responseEmployee.accessMenu;
+    });
+
+  }
+    onNodeSelect(event: any): void {
+    // Handle the selection of nodes
+    console.log('Selected Nodes:', this.selectedNodes);
+  }
   onSubmit(){
     const encryptEmployee = this.fb.group({
       userId : this.encryptObj.encryptData(this.userPrivileges.get('employee')!.value),
       menuId : [this.selectedItem]
    });
-    console.log(encryptEmployee.value);
+    console.log(this.selectedItem.value);
 
     // this.employee.PostUserWiseMenu(encryptEmployee.value).subscribe(
     //   responseEmployee => {
@@ -88,14 +80,19 @@ export class UserPrivilegesComponent implements OnInit {
     //     this.toastr.error(error.error);
     //   });
   }
-
-  selected(data: any){
+  values:any;
+  selected(values: Event){
     const menuItem: any[] = [];
-        // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < data.length; i++){
-      menuItem.push({UserMenuId: this.encryptObj.encryptData(data[i])});
+    const target = values.target as HTMLSelectElement;
+    for (let i = 0; i < target.value.length; i++){
+      menuItem.push({UserMenuId: this.encryptObj.encryptData(target.value[i])});
     }
     this.selectedItem = menuItem;
   }
 
 }
+
+
+
+
+ 

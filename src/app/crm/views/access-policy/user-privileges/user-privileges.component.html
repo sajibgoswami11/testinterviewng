@@ -25,9 +25,15 @@
                   <div class="row">
                     <div class="col-lg-4 col-sm-12">
                       <div class="form-group">
-                        <!-- <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
-                          (selectedChange)="values = $event">
-                        </ngx-treeview> -->
+                        <div class="treeview-container">
+                          <p-tree
+                              [value]="nodes"
+                              [selectionMode]="'checkbox'"
+                              [(selection)]="selectedNodes"
+                              (onNodeSelect)="onNodeSelect($event)"
+                            ></p-tree>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>

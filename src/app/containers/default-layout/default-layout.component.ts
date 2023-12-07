@@ -60,7 +60,7 @@ export class DefaultLayoutComponent {
 
         for (let j = 0; j < parentChildArr.length; j++) {
           const menuChildArr = this.rootParentId.filter((item: { parentMenuId: any; }) => item.parentMenuId === parentChildArr[j].userMenuId);
-          console.log(parentChildArr);
+          // console.log(parentChildArr);
           // tslint:disable-next-line: prefer-for-of
           for (let k = 0; k < menuChildArr.length; k++) {
 
@@ -78,7 +78,7 @@ export class DefaultLayoutComponent {
            {
             parentChildArr[j].userMenuFile = parentChildArr[j].userMenuTitle;
            }
-          console.log(this.navItemsChildren);
+          // console.log(this.navItemsChildren);
           this.navItemsChildParent.push(
                   {
                       name: parentChildArr[j].userMenuTitle,
