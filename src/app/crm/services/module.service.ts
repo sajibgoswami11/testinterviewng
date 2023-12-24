@@ -11,23 +11,23 @@ export class ModuleService {
   public getModuleList() {
     return this.http.get<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/GetTaskModule');
   }
-  public getModuleById(id) {
+  public getModuleById(id: any) {
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/GetModuleById' , id);
   }
-  public editModule(data) {
+  public editModule(data: any) {
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/UpdateModuleByID', data);
   }
-  public createModule(data) {
+  public createModule(data: any[]) {
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/CreateModule', data);
   }
-  public deleteModule(id){
+  public deleteModule(id: any){
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/DeleteModuleByID', id);
   }
-  public getModuleByProject(data){
+  public getModuleByProject(data: any){
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/GetModuleListByProjectId' , data );
   }
 
-  public getModuleWiseTeamMeamber(data){
+  public getModuleWiseTeamMeamber(data: any){
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskModule/GetModuleWiseTeamMember' , data );
   }
 

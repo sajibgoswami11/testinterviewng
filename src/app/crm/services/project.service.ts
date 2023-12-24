@@ -9,22 +9,22 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
- public getProjectById(data) {
+ public getProjectById(data: any) {
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskProject/GetProjectById', data);
   }
 
-  public createProject(data) {
+  public createProject(data: any) {
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/TaskProject/CreateProject', data);
   }
 
-  public EditProject(data) {
+  public EditProject(data: any) {
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/TaskProject/UpdateProjectByID', data);
   }
 
   public getProjectList() {
     return this.http.get<any>(Common.baseUrl + '/ERP/TaskManagement/TaskProject/GetTaskProject' );
   }
-  public deleteProject(data) {
+  public deleteProject(data: any) {
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/TaskProject/DeleteProjectID' , data);
   }
 }

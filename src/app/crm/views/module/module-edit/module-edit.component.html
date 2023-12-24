@@ -1,0 +1,101 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-accent-primary">
+        <div class="card-header">
+          <i class="fa fa-edit"></i>Edit Module
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal" [formGroup]="EditModule" (ngSubmit)="onSubmit()">
+            <!-- <input formControlName="modulEId" id="prependedInput" class="form-control d-none" size="16" type="hidden"> -->
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Module Name</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="modulEId" id="prependedInput" class="form-control d-none " size="16" >
+                      <input formControlName="modulEName" id="modulEName" class="form-control" size="16" type="text">
+                    </div>
+                    <p *ngIf="EditModule.get('modulEName').hasError('required') && EditModule.value.touched">
+                      <small class="text-danger">Please input modulE Name </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="col-form-label" for="prependedInput">Project</label>
+                <div class="form-group">
+                  <select formControlName="projectList" class="form-control" (change)="onSelectProject($event)">
+                  <option *ngFor="let prj of projectList" [value]="prj.projectId">{{prj.projectName}}</option>
+                  </select>
+                  <p *ngIf="EditModule.get('projectList').hasError('required') ">
+                    <small class="text-danger">Please input projectName Name </small>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Milestones </label>
+                  <div class="controls">
+                  <div class="input-prepend input-group">
+                    <input formControlName="milesTones" id="prependedInput" class="form-control" size="16"
+                    type="date"  onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'"  >
+                  </div>
+                  <p *ngIf="EditModule.get('milesTones').hasError('required') ">
+                    <small class="text-danger">Please input Milestone Name </small>
+                  </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Progress</label>
+                  <div class="controls">
+                  <div class="input-prepend input-group">
+                    <!-- <input formControlName="progresSStatus" id="prependedInput" class="form-control" rows="4"  cols="50"> -->
+                    <select formControlName="progressStatus" class="form-control" (change)="onSelectProgress($event)">
+                      <option *ngFor="let itemProgress of progressStatus" [value]="itemProgress.taskStatusListId">{{itemProgress.statusName}}</option>
+                      </select>
+                  </div>
+                  <p *ngIf="EditModule.get('progressStatus').hasError('required') ">
+                    <small class="text-danger">Please input progress Status  </small>
+                  </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- <input type='checkbox' id= 'abc' (change)="onCheckTeamShow($event)">
+                  <div *ngIf='show'>  -->
+                  <label class="col-form-label" for="prependedInput">Team</label>
+                  <div class="form-group">
+                    <select formControlName="teamList" class="form-control" (change)="onSelectTeam($event)">
+                        <option *ngFor="let mod of teamList" [value]="mod.teamId" >{{mod.teamName}}</option>
+                    </select>
+                  </div>
+                  <p *ngIf="EditModule.get('teamList').hasError('required') && EditModule.value.touched">
+                    <small class="text-danger">Please input teamName  </small>
+                  </p>
+              </div> 
+              <!-- <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Progress status</label>
+                  <div class="controls">
+                  <div class="input-prepend input-group">
+                    <input formControlName="progresSStatus" id="prependedInput" class="form-control" rows="4" cols="50"> 
+                  </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-md-12 text-center">
+                  <button type="submit" class="btn btn-primary mr-3">Save changes</button>
+                  <a routerLink="/module/list" routerLinkActive="active" class="btn btn-danger" type="button"> Cancel</a>
+              </div>              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

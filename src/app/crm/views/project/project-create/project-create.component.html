@@ -76,7 +76,7 @@
 
               </div >
               <div class="col-md-12" formArrayName="moduleRows" *ngIf='show'>
-                <div class="row" *ngFor="let itemrow of CreateProject.controls.moduleRows['controls']; let i=index"  [formGroupName]="i">
+                <div class="row" *ngFor="let itemrow of CreateProject?.get('moduleRows')?.value; let i=index"  [formGroupName]="i">
                   <div class="col-md-12">
                     <strong>Module - {{i+1}}</strong>
                   </div>                  
@@ -127,7 +127,7 @@
                     </div>
                   </div>
                   <div class="col-md-2" style="padding-top: 38px;">
-                    <button type="button" *ngIf="CreateProject.controls.moduleRows['controls'].length > 1" (click)="deleteRow(i)" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle" aria-hidden="true"></i></button> &nbsp;
+                    <button type="button" *ngIf="CreateProject?.get('moduleRows')?.value.length > 1" (click)="deleteRow(i)" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle" aria-hidden="true"></i></button> &nbsp;
                     <button type="button" (click)="addNewRow()" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                   </div>
                 </div>                

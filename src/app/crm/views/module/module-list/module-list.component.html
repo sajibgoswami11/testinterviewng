@@ -1,0 +1,78 @@
+<div class="animated fadeIn">
+  <div class="row">
+      <div class="col-lg-12">
+        <div class="card card-accent-primary">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Module List
+            <div class="card-header-actions">
+              <a routerLink="/module/create" routerLinkActive="active" class="btn btn-sm btn-primary">
+                <i class="fa fa-plus-circle fa-lg"></i>&nbsp; Create New
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped table-sm text-center">
+              <thead>
+                <tr>
+                  <th class="d-none">Module ID</th>
+                  <th>Module  Name</th>
+                  <th>milestones</th>
+                  <th>progress</th>
+                  <th>project</th>
+                  <th>Team</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let module of moduledata | paginate: { id: 'module',
+                itemsPerPage: pageSize,
+                currentPage: pageNumber,
+                totalItems: totalRecords }">
+                  <td class="d-none">{{module.moduleId}}</td>
+                  <td>{{module.moduleName}}</td>
+                  <td>{{module.milestones}}</td>
+                  <td>
+                    <div *ngFor="let itemPriority of progressStatus" >
+                      <div *ngIf="itemPriority.taskStatusListId == module.progressStatus ">{{itemPriority.statusName}}</div>
+                    </div>
+                  </td>
+                  <!-- <td>
+                    <select>
+                      <option *ngFor="let prj of projectList" [value]="prj.projectId">{{prj.projectName}}</option>
+                      </select>
+                  </td> -->
+                   <td>
+                    <div *ngFor="let prj of projectList" >
+                      <div *ngIf="prj.projectId == module.projectId ">{{prj.projectName}}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngFor="let mod of teamList" >
+                      <div *ngIf="mod.teamId == module.teamId" >{{mod.teamName}} </div>
+                    </div>
+                 </td> 
+                  <td>
+                    <a href="javascript:void(0)" (click)="editModule(module.moduleId)"><span class="badge badge-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</span></a> | 
+                    <a href="javascript:void(0)" (click)="deleteModule(module.moduleId)"><span class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <nav>
+              <pagination-controls  id="module"
+                    (pageChange)="pageChanged($event)"
+                    (pageBoundsCorrection)="pageChanged($event)"
+                    maxSize="9"
+                    directionLinks="true"
+                    autoHide="true"
+                    responsive="true"
+                    previousLabel="Previous"
+                    nextLabel="Next">
+              </pagination-controls>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+</div>

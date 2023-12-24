@@ -1,0 +1,95 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-accent-primary">
+        <div class="card-header">
+          <i class="fa fa-edit"></i>Create Module
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal" [formGroup]="CreateModule" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Module Name</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="moduleName" id="moduleName" class="form-control" size="16" type="text">
+                    </div>
+                    <p *ngIf="CreateModule.get('moduleName').hasError('required') && CreateModule.value.touched">
+                      <small class="text-danger">Please input modulE Name </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+               <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">Milestones</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input formControlName="milestones"  id="milestones" class="form-control" size="16" type="date" bs-datepicker>
+                    </div>
+                    <p *ngIf="CreateModule.get('milestones').hasError('required') && CreateModule.value.touched">
+                      <small class="text-danger">Please input milestones  </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">progress</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <!-- <input formControlName="progressStatus"  id="progressStatus" class="form-control" size="16" type="text"> -->
+                      <select formControlName="progressStatus" class="form-control" (change)="onSelectProgress($event)">
+                        <option value="" selected>--- Select Status ---</option>
+                        <option *ngFor="let itemProgress of progressStatus" [value]="itemProgress.taskStatusListId">{{itemProgress.statusName}}</option>
+                        </select>
+                    </div>
+                    <p *ngIf="CreateModule.get('progressStatus').hasError('required') && CreateModule.value.touched">
+                      <small class="text-danger">Please input progress status </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="prependedInput">project</label>
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <select formControlName="projectName" class="form-control" (change)="onSelectProject($event)">
+                        <option value="" selected >--Select Project</option>
+                        <option *ngFor="let prj of projectName" [value]="prj.projectId">{{prj.projectName}}</option>
+                        </select>
+                    </div>
+                    <p *ngIf="CreateModule.get('projectName').hasError('required') ">
+                      <small class="text-danger">Please input projectName Name </small>
+                    </p> 
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- <input type='checkbox' id= 'abc' (change)="onCheckTeamShow($event)">
+                  <div *ngIf='show'>  -->
+                  <label class="col-form-label" for="prependedInput">Team</label>
+                  <div class="form-group">
+                    <select formControlName="teamList" class="form-control" (change)="onSelectTeam($event)">
+                      <option value="" selected >--Select Team</option>  
+                      <option *ngFor="let mod of teamList" [value]="mod.teamId" >{{mod.teamName}}</option>
+                    </select>
+                  </div>
+                  <p *ngIf="CreateModule.get('teamList').hasError('required') && CreateModule.value.touched">
+                    <small class="text-danger">Please input teamName  </small>
+                  </p>
+                 <!-- </div> -->
+              </div>
+            </div>
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn btn-primary mr-3">Save changes</button>
+              <a routerLink="/module/list" routerLinkActive="active" class="btn btn-danger" type="button"> Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> <!--/.col-->
+  </div><!--/.row-->
+</div>

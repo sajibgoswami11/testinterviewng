@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/app/task-management/services/project.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { EncryptionDescryptionService } from 'src/app/task-management/services/encryption-descryption.service';
-import { TeamListService } from 'src/app/task-management/services/team-list.service';
-import { format } from 'path';
-import { EmployeeListService } from 'src/app/task-management/services/employee-list.service';
-import { ModuleService } from 'src/app/task-management/services/module.service';
-import { StatusListService } from 'src/app/task-management/services/status-list.service';
-import { Console } from 'console';
-import { Common } from 'src/app/task-management/helpers/common';
-import { ConditionalExpr } from '@angular/compiler';
+import { TeamListService } from 'src/app/crm/services/team-list.service';
+import { EmployeeListService } from 'src/app/crm/services/employee-list.service';
+import { EncryptionDescryptionService } from 'src/app/crm/services/encryption-descryption.service';
+import { ModuleService } from 'src/app/crm/services/module.service';
+import { ProjectService } from 'src/app/crm/services/project.service';
+import { StatusListService } from 'src/app/crm/services/status-list.service';
 
 @Component({
   selector: 'app-project-edit',
@@ -19,10 +15,10 @@ import { ConditionalExpr } from '@angular/compiler';
   styleUrls: ['./project-edit.component.css']
 })
 export class ProjectEditComponent implements OnInit {
-  encryptModule: FormGroup;
+  encryptModule: FormGroup= new FormGroup({});
   progressStatus: any;
   ddstatus: any;
-  public modStat: string;
+  public modStat: string|any;
   public projectEmployeeList: any;
   dropdownSettings: any = {};
   teamWiseEmployee: any;
@@ -32,8 +28,10 @@ export class ProjectEditComponent implements OnInit {
   selectedItems: any;
   projectEmployee: any;
   onCheck = false;
-  projectId: string;
+  projectId: string|any;
   public flagCheckDeselect = false ;
+  encryptProject: FormGroup;
+  EditProject: FormGroup= new FormGroup({});
   constructor(
     private router: Router,
     private team: TeamListService,
@@ -45,8 +43,9 @@ export class ProjectEditComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private encryptObj: EncryptionDescryptionService,
-    private employee: EmployeeListService
+    private employee: EmployeeListService,private fb: FormBuilder
   ) {
+    
     const id: any = this.activeRoute.snapshot.paramMap.get('id');
     const encryptProjectId = this.encryptObj.encryptData(id);
     this.encryptProject = this.formBuilder.group({
@@ -87,8 +86,7 @@ export class ProjectEditComponent implements OnInit {
 
   }
 
-  encryptProject: FormGroup;
-  EditProject: FormGroup;
+  
   // public visibility = false;
   public teamName: any;
   public ddTeamId: any;
@@ -134,19 +132,20 @@ export class ProjectEditComponent implements OnInit {
               resultModuleWiseEmp => {
                 this.modEmp = resultModuleWiseEmp.empList;
                 this.projectEmployeeList = resultModuleWiseEmp.empList;
-                // console.log(resultModuleWiseEmp.empList);
-                // console.log(this.modEmp);
+                
                 this.formArr.push(this.initModuleRowsEdit(this.moduleList[i].moduleId, this.moduleList[i].moduleName,
                   this.moduleList[i].milestones, this.moduleList[i].progressStatus, resultModuleWiseEmp.empList ));
               }
             );
+            console.log(this.projectEmployeeList);
+            console.log(this.modEmp);
             this.employee.GetEmployeeByProjectModule(this.encryptProject.value).subscribe(
               responseEmployee => {
                  this.projectEmployeeList = responseEmployee.empList;
 
               });
+             
           }
-
         });
 
     this.status.GetStatusList()
@@ -207,7 +206,7 @@ onProjectDeSelect(items: any){
       });
       this.employeeList.GetEmployeeByProjectModule(this.encryptModule.value).subscribe(
         resultModuleWiseEmp => {
-          if (resultModuleWiseEmp.empList.find(value => value.empId === items.empId) )
+          if (resultModuleWiseEmp.empList.find((value:any) => value.empId === items.empId) )
           {
             this.flagCheckDeselect = true ;
             console.log(this.flagCheckDeselect);
@@ -276,7 +275,7 @@ get formArr() {
   return this.EditProject.get('moduleRows') as FormArray;
 }
 
-initModuleRowsEdit(moduleId, moduleName, milestone, progressStatus, moduleEmployeeList) {
+initModuleRowsEdit(moduleId: string, moduleName: string, milestone: string, progressStatus: string, moduleEmployeeList: string) {
   return this.formBuilder.group({
     moduleId: [moduleId],
     moduleName: [moduleName],
@@ -308,7 +307,7 @@ moduleEncryptValue() {
         else{ this.modStat = ''; }
       moduleListEncrypt.push(
         {
-          projectId: this.encryptObj.encryptData(this.EditProject.get('projectID').value),
+          projectId: this.encryptObj.encryptData(this.EditProject.get('projectID')!.value),
           moduleId: this.encryptObj.encryptData(list[i].moduleId),
           moduleName: this.encryptObj.encryptData(list[i].moduleName),
           milestones: this.encryptObj.encryptData(list[i].moduleMilestones),
@@ -320,7 +319,7 @@ moduleEncryptValue() {
   return moduleListEncrypt;
 }
 
-moduleEncryptEmployee([empList]){
+moduleEncryptEmployee(empList:any[]){
   const modulELempListEncrypt = [];
   // tslint:disable-next-line:forin
   for (const m in empList){
@@ -333,39 +332,38 @@ moduleEncryptEmployee([empList]){
 }
 //#endregion
 
-  onSelectTeam(e) {
+  onSelectTeam(e:any) {
     this.ddTeamId = e.target.value;
   }
-  onSelectProgress(e) {
+  onSelectProgress(e:any) {
     this.ddstatus = e.target.value;
   }
 
-  onCheckTeamShow(val) {
+  onCheckTeamShow(val:any) {
     if (val.target.checked) {
       this.show = true;
     } else {
       this.show = false;
     }
   }
-  onModuleDateExceed(e)
+  onModuleDateExceed(e:any)
   {
-    if (e.target.value  > this.EditProject.get('projectMilestones').value)
+    if (e.target.value  > this.EditProject.get('projectMilestones')!.value)
     {
       this.toastr.error('Please give date inside project milestone', 'Error!');
       e.target.value = Date.now();
       return;
     }
   }
-  onProjectDateExceed(e, moduleFormArr: any){
-
+  onProjectDateExceed($event: any , moduleFormArr: any){
+    const targetValue = $event.target?.value as number; 
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < moduleFormArr.length; i++) {
       console.log(moduleFormArr[i].value.moduleMilestones);
       // tslint:disable-next-line: no-string-literal
-      if ( e.target.value < moduleFormArr[i].value.moduleMilestones )
-      {
-        this.toastr.error('Please give date grater than module milestone', 'Error!');
-        e.target.value = Date.now();
+      if (targetValue < moduleFormArr[i].value.moduleMilestones) {
+        this.toastr.error('Please give date greater than module milestone', 'Error!');
+        $event.target.value = Date.now();
         return;
       }
     }
@@ -373,17 +371,17 @@ moduleEncryptEmployee([empList]){
   }
   onSubmit() {
 
-    if (this.EditProject.get('projectName').invalid) {
+    if (this.EditProject.get('projectName')!.invalid) {
       this.toastr.error('Please Input projectName', 'Error!');
       return;
     }
-    if (this.EditProject.get('projectMilestones').invalid) {
+    if (this.EditProject.get('projectMilestones')!.invalid) {
       this.toastr.error('Please Input projectMilestones', 'Error!');
       return;
     }
 
 
-    if (this.EditProject.get('progressStatus').invalid) {
+    if (this.EditProject.get('progressStatus')!.invalid) {
       this.toastr.error('Please Input progress Status', 'Error!');
       return;
     }
@@ -411,10 +409,10 @@ moduleEncryptEmployee([empList]){
     //#endregion
 
     this.encryptProject = this.formBuilder.group({
-      projectName: this.encryptObj.encryptData(this.EditProject.get('projectName').value),
-      milestone: this.encryptObj.encryptData(this.EditProject.get('projectMilestones').value),
-      projectId: this.encryptObj.encryptData(this.EditProject.get('projectID').value),
-      progressStatus: this.encryptObj.encryptData(this.EditProject.get('progressStatus').value),
+      projectName: this.encryptObj.encryptData(this.EditProject.get('projectName')!.value),
+      milestone: this.encryptObj.encryptData(this.EditProject.get('projectMilestones')!.value),
+      projectId: this.encryptObj.encryptData(this.EditProject.get('projectID')!.value),
+      progressStatus: this.encryptObj.encryptData(this.EditProject.get('progressStatus')!.value),
       EmpList: [projectEmpSelected]
     });
     // console.log(this.encryptProject.value);

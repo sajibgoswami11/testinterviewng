@@ -13,13 +13,13 @@ import { ModuleService } from '../../../services/module.service';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
-  styleUrls: ['./project-create.component.css']
+  styleUrls: ['./project-create.component.scss']
 })
 export class ProjectCreateComponent implements OnInit {
 
-    CreateProject: FormGroup ;
-    encryptCreateProject: FormGroup;
-    encryptProjectId: FormGroup;
+    CreateProject: FormGroup = new FormGroup({}) ;
+    encryptCreateProject: FormGroup= new FormGroup({}) ;
+    encryptProjectId: FormGroup= new FormGroup({}) ;
     public onCheck = false;
     public show = false;
 
@@ -84,9 +84,9 @@ export class ProjectCreateComponent implements OnInit {
     );
   }
 
-  onModuleDateExceed(e)
+  onModuleDateExceed(e:any)
   {
-    if (e.target.value  > this.CreateProject.get('projectMilestones')!.value)
+    if (e.target?.value  > this.CreateProject.get('projectMilestones')!.value)
     {
       this.toastr.error('Please give date inside project milestone', 'Error!');
       e.target.value = Date.now();
@@ -155,7 +155,7 @@ export class ProjectCreateComponent implements OnInit {
     return moduleListEncrypt;
   }
 
-  moduleEncryptEmployee([empList]){
+  moduleEncryptEmployee(empList:any[]){
     const modulELempListEncrypt: any[] = [];
     // tslint:disable-next-line:forin
     for (const m in empList){
@@ -167,11 +167,11 @@ export class ProjectCreateComponent implements OnInit {
     return modulELempListEncrypt;
   }
 
-  onSelectProgress(e) {
+  onSelectProgress(e:any) {
     this.ddstatus = e.target.value;
   }
 
-  onCheckModuleShow(val) {
+  onCheckModuleShow(val:any) {
     if (val.target.checked) {
       if (this.CreateProject.get('projectName')!.invalid) {
         this.toastr.error('Please Input projectName', 'Error!');
@@ -221,7 +221,7 @@ export class ProjectCreateComponent implements OnInit {
         this.onCheck = true;
         this.show = true;
         this.readOnlyMode = true;
-        this.CreateProject.controls.projectprogressStatus.enable();
+        this.CreateProject?.get('projectprogressStatus')?.enable();
       }
     } else {
       this.show = false;

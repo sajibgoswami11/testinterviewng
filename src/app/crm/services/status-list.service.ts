@@ -13,18 +13,18 @@ constructor(private http: HttpClient) { }
    return this.http.get<any>( Common.baseUrl + '/ERP/TaskManagement/StatusList/GetStatusList' );
   }
 
-  public GetStatusListById(data){
+  public GetStatusListById(data: any){
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/StatusList/GetStatusByID' , data);
   }
 
-  public CreateStatus(data){
+  public CreateStatus(data: any){
     return this.http.post<any>(Common.baseUrl + '/ERP/TaskManagement/StatusList/CreateStatus/' , data);
   }
 
-  public EditStatus(data){
+  public EditStatus(data: any){
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/StatusList/UpdteStatusById' , data);
   }
-  public DeleteStatus(data){
+  public DeleteStatus(data: any){
     return this.http.put<any>(Common.baseUrl + '/ERP/TaskManagement/StatusList/DeleteStatusById' , data);
   }
   public GetStatusCategory(){

@@ -18,7 +18,7 @@
                     <th>Project Name</th>
                     <th>Milestones</th>
                     <th>progress</th>
-                    <th>Team</th>
+                    <!-- <th>Team</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -31,11 +31,11 @@
                     <td>{{project.projectName}}</td>
                     <td>{{project.milestone}}</td>
                     <td>{{project.progressStatus}}</td>
-                    <td>
-                       <div *ngFor="let mod of teamList" >
+                    <!--<td>
+                        <div *ngFor="let mod of teamList" >
                          <div *ngIf="mod.teamId == project.teamId" >{{mod.teamName}} </div>
                        </div>
-                    </td>
+                    </td> -->
                     <td>
                       <a href="javascript:void(0)" (click)="editProject(project.projectId)"><span class="badge badge-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</span></a> | 
                       <a href="javascript:void(0)" (click)="deleteProject(project.projectId)"><span class="badge badge-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span></a>
@@ -47,10 +47,10 @@
                 <pagination-controls  id="project"
                       (pageChange)="pageChanged($event)"
                       (pageBoundsCorrection)="pageChanged($event)"
-                      maxSize="9"
-                      directionLinks="true"
-                      autoHide="true"
-                      responsive="true"
+                      [maxSize]="9"
+                      [directionLinks]="true"
+                      [autoHide]="true"
+                      [responsive]="true"
                       previousLabel="Previous"
                       nextLabel="Next">
                 </pagination-controls>

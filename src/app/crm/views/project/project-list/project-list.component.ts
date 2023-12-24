@@ -5,25 +5,28 @@ import { ToastrService } from 'ngx-toastr';
 import { EncryptionDescryptionService } from '../../../services/encryption-descryption.service';
 import { TeamListService } from '../../../services/team-list.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+declare var Swal: any;
+
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
   public teamList: any;
-  data: Array<any>;
+  data: any;
   totalRecords: number;
   pageNumber = 1;
   pageSize = 10;
-  public encryptProject: FormGroup;
+  public encryptProject: FormGroup = new FormGroup({});
   constructor(private project: ProjectService,
               private team: TeamListService,
               private router: Router,
               private fb: FormBuilder,
               private encObj: EncryptionDescryptionService,
               private toastr: ToastrService) {
+    this.totalRecords = 0;
     // this.data=new Array<any>();
     this.project.getProjectList()
       .subscribe(
@@ -44,16 +47,16 @@ export class ProjectListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.team.getTeamList()
-      .subscribe(
-        responseForTeamdd => {
-          this.teamList = responseForTeamdd.taskTeam;
-         // console.log(responseForTeamdd.taskTeam);
-        }
-      );
+    // this.team.getTeamList()
+    //   .subscribe(
+    //     responseForTeamdd => {
+    //       this.teamList = responseForTeamdd.taskTeam;
+    //      // console.log(responseForTeamdd.taskTeam);
+    //     }
+    //   );
   }
 
-  pageChanged($event) {
+  pageChanged($event:number) {
     this.pageNumber = $event;
   }
 
@@ -63,7 +66,7 @@ export class ProjectListComponent implements OnInit {
     // console.log(id);
   }
 
-  deleteProject(id) {
+  deleteProject(id:any) {
     // var projectId = this.encObj.encryptData(id);
     Swal.fire({
       title: 'Are you sure?',
@@ -72,7 +75,7 @@ export class ProjectListComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
       showCancelButtonText: 'No, keep it'
-    }).then((result) => {
+    }).then((result:any) => {
       this.encryptProject = this.fb.group({
         ProjectId: this.encObj.encryptData(id)
       });

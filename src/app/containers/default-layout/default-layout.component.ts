@@ -24,9 +24,11 @@ export class DefaultLayoutComponent {
                 this.items$ = this.getSidebarItems();
 
                }
+  menuChildArr:any;
   navItems: INavData [] =  new Array<INavData >();
   navItemsChildren: INavData [] =  new Array<INavData >();
   navItemsChildParent: INavData [] =  new Array<INavData >();
+  childrenMenuItems : any;
   title!: boolean;
   items$: Observable<INavData[]>;
   public userRole: any;
@@ -39,7 +41,7 @@ export class DefaultLayoutComponent {
 
   private getSidebarItems(): Observable< INavData []> {
     let cntmenusforPR = 0;
-    let menuUriData: any;
+    let menuUriData: any; 
     let menuUriDataString:any = localStorage.getItem('userMenuData');
     menuUriData = JSON.parse(menuUriDataString);
 
@@ -56,50 +58,48 @@ export class DefaultLayoutComponent {
       if (menuUriData[i].menuType === 'GR')
       {
         const parentChildArr = this.rootParentId.filter((item: { parentMenuId: any; }) => item.parentMenuId === menuUriData[i].userMenuId );
- //#region sub mod
+          //#region sub mod
 
-        for (let j = 0; j < parentChildArr.length; j++) {
-          const menuChildArr = this.rootParentId.filter((item: { parentMenuId: any; }) => item.parentMenuId === parentChildArr[j].userMenuId);
-          // console.log(parentChildArr);
-          // tslint:disable-next-line: prefer-for-of
-          for (let k = 0; k < menuChildArr.length; k++) {
+          for (let j = 0; j < parentChildArr.length; j++) 
+          {
+            this.menuChildArr = this.rootParentId.filter((item: { parentMenuId: any; }) => item.parentMenuId === parentChildArr[j].userMenuId);
+            // tslint:disable-next-line: prefer-for-of
+                for (let k = 0; k < this.menuChildArr.length; k++) {
+                      this.navItemsChildren.push(
+                        {
+                          name: this.menuChildArr[k].userMenuTitle,
+                          url: this.menuChildArr[k].userMenuFile,
+                          icon: 'icon-arrow-right-circle'
+                        }
+                      );
+                    }
+                    //  this.childrenMenuItems [j] = this.navItemsChildren
+          //runs 2wice 
+              /*  this.navItemsChildParent.push(
+                        {
+                            name: parentChildArr[j].userMenuTitle,
+                            url: parentChildArr[j].userMenuFile,
+                            icon: 'icon-arrow-right-circle',
+                            children: this.navItemsChildren
+                        }
+                  ); */
+          }
+          // console.log(parentChildArr);        
+          // console.log(this.childrenMenuItems);
+           // cutting  duplis
+           // adding all to tskm menu 
+            this.navItems.push(
+               {
+                 name: menuUriData[i].userMenuTitle,
+                 url: menuUriData[i].userMenuFile,
+                 icon: 'icon-arrow-right-circle',
+                 children:  this. navItemsChildren
 
-                this.navItemsChildren.push(
-                  {
-                    name: menuChildArr[k].userMenuTitle,
-                    url: menuChildArr[k].userMenuFile,
-                    icon: 'icon-arrow-right-circle'
-                  }
-                );
+               }
+              ); 
+        
 
-           }
-
-          if (parentChildArr[j].userMenuFile === null)
-           {
-            parentChildArr[j].userMenuFile = parentChildArr[j].userMenuTitle;
-           }
-          // console.log(this.navItemsChildren);
-          this.navItemsChildParent.push(
-                  {
-                      name: parentChildArr[j].userMenuTitle,
-                      url: parentChildArr[j].userMenuFile,
-                      icon: 'icon-arrow-right-circle',
-                      children: this.navItemsChildren
-                  }
-             );
-          // break;
-         }
-        // console.log(this.navItemsChildParent);
-
-        this.navItems.push(
-            {
-              name: menuUriData[i].userMenuTitle,
-              url: menuUriData[i].userMenuFile,
-              icon: 'icon-arrow-right-circle',
-              children:  this.navItemsChildParent
-            }
-          );
- //#endregion
+        //#endregion
       }
     }
     // console.log(this.navItems);

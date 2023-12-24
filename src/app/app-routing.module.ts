@@ -48,11 +48,14 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./crm/views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
+      {
+        path: 'project',
+        loadChildren: () => import('./crm/views/project/project.module').then(m => m.ProjectModule),
+      },
       // {
-      //   path: 'project',
-      //   loadChildren: () => import('./crm/views/project/project.module').then(m => m.ProjectModule),
+      //   path: 'module',
+      //   loadChildren: () => import('./crm/views/module/taskmodule.module').then(m => m.TaskModule),
       // },
-    
       {
         path: 'accesspolicy',
         loadChildren: () => import('./crm/views/access-policy/access-policy.module').then(m => m.AccessPolicyModule)
